@@ -124,7 +124,7 @@
       }
     </style>
     <div class="form-container">
-      <div class="form-header">Invoice Form</div>
+      <div class="form-header">Invoice Form v005</div>
       
       <!-- Contact Info Section -->
       <h3>Contact Info</h3>
@@ -297,6 +297,7 @@
 }
 
 function updateInvoice() {
+  const invoiceID = generateInvoiceID();
   const name = document.getElementById("name").value;
   const country = document.getElementById("country").value;
   const phone = document.getElementById("phone").value;
@@ -318,7 +319,7 @@ function updateInvoice() {
     document.getElementById("hourly-rate-section").style.display = "none";
   }
 
-  let invoiceText = `Full Legal Name: ${name}\nCountry: ${country}\nPhone Number (WhatsApp): ${phone}\nPayment Method: ${paymentMethod}`;
+  let invoiceText = `Invoice ID: ${invoiceID}\nFull Legal Name: ${name}\nCountry: ${country}\nPhone Number (WhatsApp): ${phone}\nPayment Method: ${paymentMethod}`;
   
   // Manage payment method sections
   if (paymentMethod === "LTC Crypto") {
@@ -486,6 +487,15 @@ function uploadTemplate() {
         }
       }
 
+      function generateInvoiceID() {
+  const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZ123456789';
+  let result = 'MJ-';
+  for (let i = 0; i < 7; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return result;
+}
+
       function saveDataAsCookie() {
         const data = {
           name: document.getElementById("name").value || "",
@@ -556,6 +566,8 @@ function uploadTemplate() {
           document.getElementById("dob").value = data.dob || "";
 
           updateInvoice();
-        }
+        }else {
+    updateInvoice();  // Ensure invoice ID is generated on page load even if there's no cookie
+  }
       };
     </script>
