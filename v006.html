@@ -1,0 +1,687 @@
+    <!-- v006.html  In Progress Code -->
+    
+    <style>
+    body {
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.6;
+  color: #2c3e50;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ecf0f1;
+}
+
+input[type="email"],
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+  width: 100%; /* Use full width on smaller screens */
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #bdc3c7;
+  font-size: 16px;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.form-container {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.form-header {
+  background-color: #3498db;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  border-radius: 10px 10px 0 0;
+}
+
+h2 {
+  color: #2980b9;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #34495e;
+  font-weight: bold;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus,
+select:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
+
+textarea {
+  resize: vertical;
+  height: 100px;
+}
+
+button {
+  background-color: #e74c3c;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #c0392b;
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(192, 57, 43, 0.5);
+}
+
+#copy-button {
+  background-color: #27ae60;
+  margin-bottom: 20px;
+}
+
+#copy-button:hover {
+  background-color: #2ecc71;
+}
+
+#ltc-details,
+#other-payment-details,
+#paypal-details,
+#dob-details {
+  margin-top: 20px;
+}
+
+img {
+  margin-top: 10px;
+  cursor: pointer;
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+    max-width: 100%;
+  }
+
+  .form-container {
+    padding: 20px;
+  }
+
+  .form-header {
+    font-size: 24px;
+  }
+
+  input[type="email"],
+  input[type="text"],
+  input[type="number"],
+  textarea,
+  select {
+    font-size: 14px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 8px 15px;
+  }
+
+  input[type="radio"] + label,
+  input[type="checkbox"] + label {
+    display: inline-block;
+    margin-left: 5px;
+    font-size: 14px;
+  }
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 0.9em;
+  margin-top: 5px;
+}
+    </style>
+    <div class="form-container">
+      <div class="form-header">Invoice Form v006</div>
+      <form id="invoiceForm">
+      <!-- Contact Info Section -->
+      <h2>Contact Info</h2>
+      <div class="form-group">
+        <label for="name">Full Legal Name</label>
+        <input type="text" id="name" oninput="updateInvoice()" />
+      </div>
+    
+      <div class="form-group">
+        <label for="email">Email <span class="required">*</span></label>
+        <input type="email" id="email" name="email" required />
+      </div>
+    
+      <div class="form-group">
+        <label for="discordDisplayName">Discord Display Name</label>
+        <input type="text" id="discordDisplayName" name="discordDisplayName" />
+      </div>
+    
+      <div class="form-group">
+        <label for="discordUsername">Discord Username</label>
+        <input type="text" id="discordUsername" name="discordUsername" />
+      </div>
+    
+      <div class="form-group">
+        <label for="country">Country</label>
+        <input type="text" id="country" oninput="updateInvoice()" />
+      </div>
+    
+      <div class="form-group">
+        <label for="phone">Phone Number linked to WhatsApp</label>
+        <input type="text" id="phone" oninput="updateInvoice()" />
+      </div>
+    
+      <div class="form-group">
+        <label for="redditUsername">Reddit Username</label>
+        <input type="text" id="redditUsername" name="redditUsername" oninput="updateInvoice()" />
+      </div>
+    
+      <div class="form-group">
+        <label for="redditUserLink">Reddit User Link</label>
+        <input type="text" id="redditUserLink" name="redditUserLink" readonly />
+      </div>
+    
+      <!-- Work Info Section -->
+      <h2>Work Info</h2>
+      <div class="form-group">
+        <label for="invoiceAmount">Invoice Amount in USD <span class="required">*</span></label>
+        <input type="text" id="invoiceAmount" name="invoiceAmount" required />
+      </div>
+    
+      <div class="form-group">
+        <label>Invoice Status <span class="required">*</span></label>
+        <input type="radio" id="paid" name="invoiceStatus" value="Paid" required />
+        <label for="paid">Paid</label>
+        <input type="radio" id="unpaid" name="invoiceStatus" value="Unpaid" required />
+        <label for="unpaid">Unpaid</label>
+        <input type="radio" id="otherStatus" name="invoiceStatus" value="Other" required />
+        <label for="otherStatus">Other</label>
+      </div>
+    
+      <div class="form-group">
+        <label for="taskDescription">Description of the Tasks</label>
+        <textarea id="taskDescription" name="taskDescription" rows="4"></textarea>
+      </div>
+    
+      <div class="form-group">
+        <label>Invoice Pricing Type <span class="required">*</span></label>
+        <input type="radio" id="hourlyRateType" name="pricingType" value="Hourly Rate" onclick="updateInvoice()" required />
+        <label for="hourlyRateType">Hourly Rate</label>
+        <input type="radio" id="fixedPriceType" name="pricingType" value="Fixed Price" onclick="updateInvoice()" required />
+        <label for="fixedPriceType">Fixed Price</label>
+      </div>
+    
+      <div id="hourly-rate-section" style="display: none">
+        <div class="form-group">
+          <label for="hourlyRate">Hourly Rate <span class="required">*</span></label>
+          <input type="text" id="hourlyRate" name="hourlyRate" />
+        </div>
+        <div class="form-group">
+          <label for="hoursWorked">Hours Worked <span class="required">*</span></label>
+          <input type="text" id="hoursWorked" name="hoursWorked" />
+        </div>
+      </div>
+    
+      <!-- Payment Info Section -->
+      <h2>Payment Info</h2>
+      <div class="form-group">
+        <label>PayPal Payment Type:</label>
+       
+        <input type="radio" id="paypalEmailOption" name="paypalOption" value="email" onclick="togglePayPalFields()" />
+        <label for="paypalEmailOption">PayPal Email</label>
+     
+        <input type="radio" id="paypalLinkOption" name="paypalOption" value="link" onclick="togglePayPalFields()" />
+        <label for="paypalLinkOption">PayPal.me Link</label>
+      </div>
+      
+      <!-- PayPal Email Field -->
+      <div class="form-group" id="paypalEmailField" style="display: none;">
+        <label for="paypalEmail">PayPal Email</label>
+        <input type="text" id="paypalEmail" name="paypalEmail" oninput="updateInvoice()" />
+      </div>
+      
+      <!-- PayPal.me Link Field -->
+      <div class="form-group" id="paypalLinkField" style="display: none;">
+        <label for="paypalLink">PayPal.me Link</label>
+        <input type="text" id="paypalLink" name="paypalLink" oninput="updateInvoice()" />
+      </div>
+    
+      <div class="form-group">
+        <label for="payment-method">Payment Method</label>
+        <select id="payment-method" onchange="updateInvoice()">
+          <option value="Select">Select</option>
+          <option value="LTC Crypto">LTC Crypto</option>
+          <option value="PayPal Goods and Services">PayPal Goods and Services</option>
+          <option value="Other as Discussed">Other as Discussed</option>
+        </select>
+      </div>
+    
+      <div id="ltc-details" style="display: none">
+        <label for="ltc-address">LTC Wallet Address</label>
+        <input type="text" id="ltc-address" oninput="updateInvoice()" />
+        <button onclick="checkWallet()">Check Wallet Activity</button>
+      </div>
+      <div id="other-payment-details" style="display: none">
+        <label for="other-payment">Payment Details</label>
+        <textarea id="other-payment" oninput="updateInvoice()"></textarea>
+      </div>
+      <div id="paypal-details" style="display: none">
+        <label for="account-holder">Are you the account holder of the PayPal account?</label>
+        <input type="radio" name="account-holder" value="Yes" onclick="updateInvoice()" /> Yes
+        <input type="radio" name="account-holder" value="No" onclick="updateInvoice()" /> No
+      </div>
+      <div id="dob-details" style="display: none">
+        <label for="dob">Date of Birth (for PayPal)</label>
+        <input type="date" id="dob" oninput="updateInvoice()" />
+        <img id="paypal-proof" src="https://mattyjacks.com/wp-content/uploads/2024/09/paypal-requesting-date-of-birth.png" alt="PayPal requesting Date of Birth" onclick="openImageInNewTab()" />
+      </div>
+    
+      
+      <h2>Additional Information</h2>
+      <div class="form-group">
+        <label for="notes">Notes</label>
+        <textarea id="notes" name="notes" rows="4"></textarea>
+      </div>
+    
+      <button id="copy-button" >Copy Final Text</button>
+      <textarea id="invoice-text" readonly></textarea>
+
+      <div class="form-group">
+        <label for="file-upload">Upload Supporting Documents (if any)</label>
+        <input type="file" id="upload-json" accept=".json" onchange="uploadTemplate()" />
+        <p><small>Accepted file types: JSON (Max size: 5MB)</small></p>
+        <div id="file-error" class="error-message"></div>
+    </div>
+      
+     
+      <button type="submit" class="button">Save as Template</button>
+    </form>
+    </div>
+   
+    <script>
+      const fileInput = document.getElementById('upload-json');
+      const fileError = document.getElementById('file-error');
+ function validateFile(file) {
+                const allowedType = 'application/json';
+                const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+
+                if (file.type !== allowedType && !file.name.toLowerCase().endsWith('.json')) {
+                    return 'Invalid file type. Please upload a JSON file.';
+                }
+
+                if (file.size > maxSize) {
+                    return 'File size exceeds 5MB limit. Please upload a smaller file.';
+                }
+
+                return null; // No error
+            }
+
+            // File input change event listener
+            fileInput.addEventListener('change', function() {
+                fileError.textContent = ''; // Clear previous error message
+                if (this.files.length > 0) {
+                    const file = this.files[0];
+                    const error = validateFile(file);
+                    if (error) {
+                        fileError.textContent = error;
+                        this.value = ''; // Clear the file input
+                    } else {
+                        // Optionally, you can add JSON parsing validation here
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            try {
+                                JSON.parse(e.target.result);
+                                // JSON is valid
+                            } catch (error) {
+                                fileError.textContent = 'Invalid JSON format. Please upload a valid JSON file.';
+                                fileInput.value = ''; // Clear the file input
+                            }
+                        };
+                        reader.readAsText(file);
+                    }
+                }
+            });
+
+     function togglePayPalFields() {
+  const emailOption = document.getElementById("paypalEmailOption").checked;
+  const linkOption = document.getElementById("paypalLinkOption").checked;
+
+  const paypalEmailField = document.getElementById("paypalEmailField");
+  const paypalLinkField = document.getElementById("paypalLinkField");
+
+  if (emailOption) {
+    paypalEmailField.style.display = "block";
+    paypalLinkField.style.display = "none";
+  } else if (linkOption) {
+    paypalEmailField.style.display = "none";
+    paypalLinkField.style.display = "block";
+  } else {
+    paypalEmailField.style.display = "none";
+    paypalLinkField.style.display = "none";
+  }
+
+  updateInvoice();
+}
+
+function updateInvoice() {
+  const invoiceID = generateInvoiceID();
+  const name = document.getElementById("name").value;
+  const country = document.getElementById("country").value;
+  const phone = document.getElementById("phone").value;
+  const paymentMethod = document.getElementById("payment-method").value;
+  const ltcAddress = document.getElementById("ltc-address").value;
+  const otherPayment = document.getElementById("other-payment").value;
+  const accountHolder = document.querySelector('input[name="account-holder"]:checked');
+  const dob = document.getElementById("dob").value;
+  const paypalEmail = document.getElementById("paypalEmail").value;
+  const paypalLink = document.getElementById("paypalLink").value;
+  const redditUsername = document.getElementById("redditUsername").value;
+  const redditUserLink = redditUsername ? `https://www.reddit.com/user/${redditUsername}` : "";
+  
+  // Manage hourly rate section visibility
+  const pricingType = document.querySelector('input[name="pricingType"]:checked');
+  if (pricingType && pricingType.value === "Hourly Rate") {
+    document.getElementById("hourly-rate-section").style.display = "block";
+  } else {
+    document.getElementById("hourly-rate-section").style.display = "none";
+  }
+
+  let invoiceText = `Invoice ID: ${invoiceID}\nFull Legal Name: ${name}\nCountry: ${country}\nPhone Number (WhatsApp): ${phone}\nPayment Method: ${paymentMethod}`;
+  
+  // Manage payment method sections
+  if (paymentMethod === "LTC Crypto") {
+    document.getElementById("ltc-details").style.display = "block";
+    document.getElementById("other-payment-details").style.display = "none";
+    document.getElementById("paypal-details").style.display = "none";
+    document.getElementById("dob-details").style.display = "none";
+    invoiceText += `\nLTC Wallet Address: ${ltcAddress}`;
+  } else if (paymentMethod === "Other as Discussed") {
+    document.getElementById("ltc-details").style.display = "none";
+    document.getElementById("other-payment-details").style.display = "block";
+    document.getElementById("paypal-details").style.display = "none";
+    document.getElementById("dob-details").style.display = "none";
+    invoiceText += `\nPayment Details: ${otherPayment}`;
+  } else if (paymentMethod === "PayPal Goods and Services") {
+    document.getElementById("ltc-details").style.display = "none";
+    document.getElementById("other-payment-details").style.display = "none";
+    document.getElementById("paypal-details").style.display = "block";
+    if (accountHolder && accountHolder.value === "No") {
+      document.getElementById("dob-details").style.display = "block";
+      invoiceText += `\nDate of Birth (for PayPal): ${dob}`;
+    } else {
+      document.getElementById("dob-details").style.display = "none";
+    }
+    if (document.getElementById("paypalEmailOption").checked) {
+      invoiceText += `\nPayPal Email: ${paypalEmail}`;
+    } else if (document.getElementById("paypalLinkOption").checked) {
+      invoiceText += `\nPayPal.me Link: ${paypalLink}`;
+    } else {
+      invoiceText += `\nPayPal Email/Link: Not provided`;
+    }
+  } else {
+    document.getElementById("ltc-details").style.display = "none";
+    document.getElementById("other-payment-details").style.display = "none";
+    document.getElementById("paypal-details").style.display = "none";
+    document.getElementById("dob-details").style.display = "none";
+  }
+
+  // Update Reddit user link
+  document.getElementById("redditUserLink").value = redditUserLink;
+  invoiceText += `\nReddit User Link: ${redditUserLink}`;
+  const notes = document.getElementById("notes").value ;
+  invoiceText += `\nNotes: ${notes}`;
+  document.getElementById("invoice-text").value = invoiceText;
+  saveDataAsCookie();
+}
+document.getElementById('copy-button').addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+                
+                copyText();
+            });
+
+      function copyText() {
+        const invoiceText = document.getElementById("invoice-text").value;
+        navigator.clipboard.writeText(invoiceText).then(() => {
+          const copyButton = document.getElementById("copy-button");
+          copyButton.textContent = "Copied!";
+          setTimeout(() => {
+            copyButton.textContent = "Copy Final Text";
+          }, 3000);
+        });
+      }
+
+
+
+
+      document.getElementById('invoiceForm').addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+                
+                // Perform form validation
+                if (this.checkValidity()) {
+                    // If the form is valid, call the saveTemplate function
+                    saveTemplate();
+                } else {
+                    // If the form is invalid, trigger the browser's default validation UI
+                    this.reportValidity();
+                }
+            });
+
+
+
+
+
+
+
+      function saveTemplate() {
+        // Get field values
+        const name = document.getElementById("name").value || "";
+        const country = document.getElementById("country").value || "";
+        const phone = document.getElementById("phone").value || "";
+        const email = document.getElementById("email").value || "";
+        const discordDisplayName = document.getElementById("discordDisplayName").value || "";
+        const discordUsername = document.getElementById("discordUsername").value || "";
+        const invoiceAmount = document.getElementById("invoiceAmount").value || "";
+        const invoiceStatus = document.querySelector('input[name="invoiceStatus"]:checked') 
+            ? document.querySelector('input[name="invoiceStatus"]:checked').value 
+            : "";
+        const taskDescription = document.getElementById("taskDescription").value || "";
+        const hourlyRate = document.getElementById("hourlyRate").value || "";
+        const hoursWorked = document.getElementById("hoursWorked").value || "";
+        const notes = document.getElementById("notes").value || "";
+        const paypalEmail = document.getElementById("paypalEmail").value || "";
+        const paypalLink = document.getElementById("paypalLink").value || "";
+        const paymentMethod = document.getElementById("payment-method").value || "";
+        const ltcAddress = document.getElementById("ltc-address").value || "";
+        const otherPayment = document.getElementById("other-payment").value || "";
+        const accountHolder = document.querySelector('input[name="account-holder"]:checked') 
+            ? document.querySelector('input[name="account-holder"]:checked').value 
+            : "";
+        const dob = document.getElementById("dob").value || "";
+        const redditUsername = document.getElementById("redditUsername").value || "";
+        const redditUserLink = redditUsername ? `https://www.reddit.com/user/${redditUsername}` : "";
+
+        // Collect data into an object
+        const data = {
+          name,
+          country,
+          phone,
+          email,
+          discordDisplayName,
+          discordUsername,
+          invoiceAmount,
+          invoiceStatus,
+          taskDescription,
+          hourlyRate,
+          hoursWorked,
+          notes,
+          paypalEmail,
+          paypalLink,
+          paymentMethod,
+          ltcAddress,
+          otherPayment,
+          accountHolder,
+          dob,
+          redditUserLink
+        };
+
+        // Convert data to JSON and create a Blob
+        const jsonData = JSON.stringify(data, null, 2); // Pretty-print JSON with 2 spaces
+        const blob = new Blob([jsonData], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+
+        // Create a link element, set the URL, and trigger the download
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "invoice-template.json";
+        a.click();
+
+        // Clean up the URL object
+        URL.revokeObjectURL(url);
+      }
+
+
+function uploadTemplate() {
+        const fileInput = document.getElementById("upload-json");
+        const file = fileInput.files[0];
+
+        if (file && file.type === "application/json") {
+          const reader = new FileReader();
+
+              reader.onload = function (event) {
+        
+              const data = JSON.parse(event.target.result);
+              // Set form fields from JSON data
+              document.getElementById("name").value = data.name || "";
+              document.getElementById("country").value = data.country || "";
+              document.getElementById("phone").value = data.phone || "";
+              document.getElementById("email").value = data.email || "";
+              document.getElementById("discordDisplayName").value = data.discordDisplayName || "";
+              document.getElementById("discordUsername").value = data.discordUsername || "";
+              document.getElementById("invoiceAmount").value = data.invoiceAmount || "";
+              document.querySelector(`input[name="invoiceStatus"][value="${data.invoiceStatus}"]`).checked = true;
+              document.getElementById("taskDescription").value = data.taskDescription || "";
+              document.getElementById("hourlyRate").value = data.hourlyRate || "";
+              document.getElementById("hoursWorked").value = data.hoursWorked || "";
+              document.getElementById("notes").value = data.notes || "";
+              document.getElementById("paypalEmail").value = data.paypalEmail || "";
+              document.getElementById("paypalLink").value = data.paypalLink || "";
+              document.getElementById("payment-method").value = data.paymentMethod || "";
+              document.getElementById("ltc-address").value = data.ltcAddress || "";
+              document.getElementById("other-payment").value = data.otherPayment || "";
+              document.querySelector(`input[name="account-holder"][value="${data.accountHolder}"]`).checked = true;
+              document.getElementById("dob").value = data.dob || "";
+              document.getElementById("redditUsername").value = data.redditUsername || "";
+              updateInvoice();
+            
+          };
+
+          reader.readAsText(file);
+        } else {
+          alert("Please upload a valid JSON file.");
+        }
+      }
+
+      function generateInvoiceID() {
+  const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZ123456789';
+  let result = 'MJ-';
+  for (let i = 0; i < 7; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return result;
+}
+
+      function saveDataAsCookie() {
+        const data = {
+          name: document.getElementById("name").value || "",
+          country: document.getElementById("country").value || "",
+          phone: document.getElementById("phone").value || "",
+          email: document.getElementById("email").value || "",
+          discordDisplayName: document.getElementById("discordDisplayName").value || "",
+          discordUsername: document.getElementById("discordUsername").value || "",
+          invoiceAmount: document.getElementById("invoiceAmount").value || "",
+          invoiceStatus: document.querySelector('input[name="invoiceStatus"]:checked') 
+              ? document.querySelector('input[name="invoiceStatus"]:checked').value 
+              : "",
+          taskDescription: document.getElementById("taskDescription").value || "",
+          hourlyRate: document.getElementById("hourlyRate").value || "",
+          hoursWorked: document.getElementById("hoursWorked").value || "",
+          notes: document.getElementById("notes").value || "",
+          paypalEmail: document.getElementById("paypalEmail").value || "",
+          paypalLink: document.getElementById("paypalLink").value || "",
+          paymentMethod: document.getElementById("payment-method").value || "",
+          ltcAddress: document.getElementById("ltc-address").value || "",
+          otherPayment: document.getElementById("other-payment").value || "",
+          accountHolder: document.querySelector('input[name="account-holder"]:checked') 
+              ? document.querySelector('input[name="account-holder"]:checked').value 
+              : "",
+          dob: document.getElementById("dob").value || "",
+          redditUsername: document.getElementById("redditUsername").value || "",
+          redditUserLink: document.getElementById("redditUserLink").value || ""
+        };
+
+        // Convert to JSON and store in a cookie
+        document.cookie = "invoiceData=" + encodeURIComponent(JSON.stringify(data)) + "; path=/";
+      }
+
+      function checkWallet() {
+        const ltcAddress = document.getElementById("ltc-address").value;
+        window.open(`https://blockchair.com/litecoin/address/${ltcAddress}`);
+      }
+
+      function openImageInNewTab() {
+        window.open(
+          "https://mattyjacks.com/wp-content/uploads/2024/09/paypal-requesting-date-of-birth.png",
+          "_blank"
+        );
+      }
+
+      window.onload = function () {
+        const cookies = document.cookie.split(";");
+        const invoiceCookie = cookies.find((cookie) =>
+          cookie.trim().startsWith("invoiceData=")
+        );
+
+        if (invoiceCookie) {
+          const data = JSON.parse(invoiceCookie.split("=")[1]);
+
+          document.getElementById("name").value = data.name || "";
+          document.getElementById("country").value = data.country || "";
+          document.getElementById("phone").value = data.phone || "";
+          document.getElementById("payment-method").value =
+            data.paymentMethod || "";
+          document.getElementById("ltc-address").value = data.ltcAddress || "";
+          document.getElementById("other-payment").value =
+            data.otherPayment || "";
+          if (data.accountHolder) {
+            document.querySelector(
+              `input[name="account-holder"][value="${data.accountHolder}"]`
+            ).checked = true;
+          }
+          document.getElementById("dob").value = data.dob || "";
+
+          updateInvoice();
+        }else {
+    updateInvoice();  // Ensure invoice ID is generated on page load even if there's no cookie
+  }
+      };
+    </script>
